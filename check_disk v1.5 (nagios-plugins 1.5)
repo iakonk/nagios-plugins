@@ -1,0 +1,19 @@
+Hello,
+We are using check_disk v1.5 (nagios-plugins 1.5),
+Our disk geometry:
+  /dev/md127 on /EBS type ext3 (rw,noatime,nodiratime,_netdev)
+  /EBS on /opt type none (rw,bind)
+
+check executes with options:
+  ./check_disk --warning=10% --critical=5% --iwarning=10% --icritical=5% --all --include-type=ext3 --include-type=ext4 --include-type=xfs -X tmpfs
+and check ignores mount point /EBS because of "include-type" file system option.
+
+We could use check with options:
+  ./check_disk --warning=10% --critical=5% --iwarning=10% --icritical=5% --all --ignore-ereg-path=/run -X tmpfs -u GB
+But it than could report errors like:
+   /home/user/.gvs - Permission denied
+   
+   
+We believe it is not correct to skip check of mount point that is mounted as bind.
+Is it possible to fix that behavior ?
+Thank you in advance!
